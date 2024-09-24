@@ -51,15 +51,15 @@ public class Purchase {
         );
         purchaseCancelFailed.publishAfterCommit();
 
-        CancelComplete cancelComplete = new CancelComplete(this);
-        cancelComplete.publishAfterCommit();
-
         CancelFailed cancelFailed = new CancelFailed(this);
         cancelFailed.publishAfterCommit();
     }
 
     @PreRemove
-    public void onPreRemove() {}
+    public void onPreRemove() {
+        CancelComplete cancelComplete = new CancelComplete(this);
+        cancelComplete.publishAfterCommit();
+    }
 
     public static PurchaseRepository repository() {
         PurchaseRepository purchaseRepository = PurchaseserviceApplication.applicationContext.getBean(
